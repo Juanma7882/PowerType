@@ -26,6 +26,7 @@
   - [Uninstall](#uninstall)
 - [Troubleshooting](#troubleshooting)
 - [Progress](#progress)
+- [How it work](#how-it-work)
 - [Contribute](#contribute)
 - [Acknowledgements](#acknowledgements)
 
@@ -87,6 +88,20 @@ Get-PowerTypeHistory # Used to see if any suggestions caused a exception
 [![GitHub milestone](https://img.shields.io/github/milestones/progress/AnderssonPeter/PowerType/4?style=flat-square)](https://github.com/AnderssonPeter/PowerType/milestone/4)
 
 This project is far from done but has the aim to provide autocomplete for common cli tools like [git](PowerType/Dictionaries/git.ps1), [npm](PowerType/Dictionaries/npm.ps1), [adb](PowerType/Dictionaries/adb.ps1), docker, dotnet, node and many more while using powershell. 
+
+# How it work
+PowerType integrates with **PSReadLine** to provide command predictions.  
+It works by: 
+- Loading dictionaries (`.ps1` files) that describe parameters and subcommands for different tools.  
+- Displaying completions in real time as you type in the console. 
+
+Currently, PowerType provides autocomplete dictionaries for tools such as:  
+- **adb** 
+- **docker** ✅ *(newly supported)*  
+- **git**  ✅ *(more commands)*  
+- **npm**  working on more commands
+- **Android Debug Bridge**
+- **powershell**  *(coming soon)*
 
 # Contribute
 If you wish to contribute the following would be greatly appreciated
