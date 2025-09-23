@@ -15,12 +15,12 @@ jobs:
 
     steps:
     - name: Checkout local
-      uses: actions/checkout@v2
+      uses: actions/checkout@v5
       with:
         path: 'PowerType'
       
     - name: Checkout github
-      uses: actions/checkout@v2
+      uses: actions/checkout@v5
       with:
         repository: 'git/git'
         ref: 'refs/tags/${{ github.event.inputs.gitTag }}'
@@ -35,7 +35,7 @@ jobs:
         make
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: git xml base
         path: 'git/Documentation/git-*.xml'
@@ -51,7 +51,7 @@ jobs:
         ./asciidoc.to.dictionary.ps1
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: git dictionary base
         path: 'PowerType/GenerateDictionaries/git/output.ps1'

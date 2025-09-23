@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - name: Checkout local
-      uses: actions/checkout@v2
+      uses: actions/checkout@v5
       with:
         path: 'PowerType'
 
@@ -29,7 +29,7 @@ jobs:
         .\carapace.to.dictionary.ps1
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Carapace dictionaries
         path: 'PowerType\GenerateDictionaries\carapace\output\*.ps1'
