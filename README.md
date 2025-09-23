@@ -91,8 +91,7 @@ This project is far from done but has the aim to provide autocomplete for common
 
 # How it work
 PowerType integrates with **PSReadLine** to provide command predictions.  
-It works by:
-- Reading your command history (for context and suggestions).  
+It works by: 
 - Loading dictionaries (`.ps1` files) that describe parameters and subcommands for different tools.  
 - Displaying completions in real time as you type in the console. 
 
