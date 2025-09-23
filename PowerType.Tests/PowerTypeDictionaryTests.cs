@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using AwesomeAssertions;
 using PowerType.Model;
 using Xunit;
 
@@ -45,6 +40,6 @@ public class PowerTypeDictionaryTests
         };
         dictionary.Initialize(new SystemTimeMock());
         dictionary.Validate();
-        
+
     }
 }

@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using PowerType.Parsing;
 using Xunit;
 
@@ -138,7 +138,7 @@ public class DictionaryParsingContextTests
         {
             PowerShellString.FromRawSmart("git"), PowerShellString.FromRawSmart("pull"), PowerShellString.FromRawSmart("feature/one")
         });
-                
+
         dictionaryParsingContext.Command = new Command("git", null!);
         dictionaryParsingContext.Reconstruct().Should().Be("git");
         dictionaryParsingContext.Parameters.Add(new ParameterWithValue("pull", null));
@@ -157,7 +157,7 @@ public class DictionaryParsingContextTests
 
         dictionaryParsingContext.Command = new Command("git", null!);
         dictionaryParsingContext.Parameters.Add(new ParameterWithValue("commit", null));
-        dictionaryParsingContext.Parameters.Add(new ParameterWithValue("--cleanup", null) 
+        dictionaryParsingContext.Parameters.Add(new ParameterWithValue("--cleanup", null)
         {
             UsedEqualSign = true,
             Value = PowerShellString.FromRawSmart("strip")
@@ -203,7 +203,7 @@ public class DictionaryParsingContextTests
     public void ReconstructWithValue2()
     {
         var dictionaryParsingContext = new DictionaryParsingContext("", new List<PowerShellString>
-        {});
+        { });
 
         dictionaryParsingContext.Command = new Command("git", null!);
         dictionaryParsingContext.Reconstruct("commit").Should().Be("git commit");
