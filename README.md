@@ -26,7 +26,7 @@
   - [Uninstall](#uninstall)
 - [Troubleshooting](#troubleshooting)
 - [Progress](#progress)
-- [How it works](#How it works)
+- [How it work](#how-it-work)
 - [Contribute](#contribute)
 - [Acknowledgements](#acknowledgements)
 
@@ -89,7 +89,7 @@ Get-PowerTypeHistory # Used to see if any suggestions caused a exception
 
 This project is far from done but has the aim to provide autocomplete for common cli tools like [git](PowerType/Dictionaries/git.ps1), [npm](PowerType/Dictionaries/npm.ps1), [adb](PowerType/Dictionaries/adb.ps1), docker, dotnet, node and many more while using powershell. 
 
-# How it works
+# How it work
 PowerType integrates with **PSReadLine** to provide command predictions.  
 It works by:
 - Reading your command history (for context and suggestions).  
