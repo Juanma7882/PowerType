@@ -1159,6 +1159,7 @@ $archiveFormats = [DynamicSource]@{
                 }
             )
         },
+
         [CommandParameter]@{
             Keys = @("clone");
             Name = "clone";
@@ -3994,6 +3995,243 @@ $archiveFormats = [DynamicSource]@{
                     Keys = @("--first-parent");
                     Name = "first-parent";
                     Description = "Follow only the first parent commit upon seeing a merge commit.";
+                }
+            )
+        },
+        [CommandParameter]@{
+            Keys = @("remote");
+            Name = "remote";
+            Description = "Manage set of tracked repositories";
+            Parameters = @(
+                [FlagParameter]@{
+                    Keys = @("-v", "--verbose");
+                    Name = "verbose";
+                    Description = "Be more verbose, show remote URLs after the remote name";
+                },
+                [CommandParameter]@{
+                    Keys = @("add");
+                    Name = "add";
+                    Description = "Add a remote repository";
+                    Parameters = @(
+                        [ValueParameter]@{
+                            Name = "name";
+                            Description = "Name of the remote to add";
+                        },
+                        [ValueParameter]@{
+                            Name = "url";
+                            Description = "URL of the remote repository";
+                        }
+                    )
+                },
+                [CommandParameter]@{
+                    Keys = @("remove", "rm");
+                    Name = "remove";
+                    Description = "Remove a remote repository";
+                    Parameters = @(
+                        [ValueParameter]@{
+                            Name = "name";
+                            Description = "Name of the remote to remove";
+                            Source = $remotes
+                        }
+                    )
+                }
+            )
+        },
+        [CommandParameter]@{
+            Keys = @("init");
+            Name = "init";
+            Description = "Create an empty Git repository or reinitialize an existing one";
+            Parameters = @(
+                [FlagParameter]@{
+                    Keys = @("--quiet", "-q");
+                    Name = "quiet";
+                    Description = "Only print error and warning messages; all other output will be suppressed.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--bare");
+                    Name = "bare";
+                    Description = "Create a bare repository. If GIT_DIR is not set, it is set to the current working directory.";
+                },
+                [ValueParameter]@{
+                    Keys = @("--template");
+                    Name = "template";
+                    Description = "Specify the directory from which templates will be used.";
+                    #Source = Directory
+                },
+                [ValueParameter]@{
+                    Keys = @("--separate-git-dir");
+                    Name = "separate-git-dir";
+                    Description = "Instead of initializing the repository in $GIT_DIR or ./.git/, create a text file there containing the path to the actual repository.";
+                    #Source = Directory
+                },
+                [ValueParameter]@{
+                    Keys = @("--initial-branch", "-b");
+                    Name = "initial-branch";
+                    Description = "Use the specified name for the initial branch in the newly created repository.";
+                },
+                [ValueParameter]@{
+                    Keys = @("--shared");
+                    Name = "shared";
+                    Description = "Specify that the Git repository is to be shared amongst several users. This allows users belonging to the same group to push into that repository. When specified, the config variable `core.sharedRepository` is set so that files and directories under $GIT_DIR are created with the requested permissions. When not specified, Git will use permissions reported by umask(2).";
+                    #Source = "umask", "group", "all"
+                },
+                [ValueParameter]@{
+                    Keys = @("--object-format");
+                    Name = "object-format";
+                    Description = "Specify the given object format (hash algorithm) for the repository. The valid values are sha1 and (if enabled) sha256. sha1 is the default.";
+                    Condition = [LargerOrEqualCondition]::new($version, [Version]'2.29.0');
+                    #Source = "sha1", "sha256"
+                },
+                [ValueParameter]@{
+                    Name = "directory";
+                    Description = "The directory in which to create the repository. Can be a new or existing empty directory.";
+                    #Source = Directory
+                }
+            )
+        },
+        [CommandParameter]@{
+            Keys = @("pull");
+            Name = "pull";
+            Description = "Fetch from and integrate with another repository or a local branch";
+            Parameters = @(
+                # General Options
+                [FlagParameter]@{
+                    Keys = @("--quiet", "-q");
+                    Name = "quiet";
+                    Description = "Operate quietly. This is passed to both underlying git-fetch and git-merge.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--verbose", "-v");
+                    Name = "verbose";
+                    Description = "Pass --verbose to git-fetch and git-merge.";
+                },
+
+                # Merge/Rebase Strategy Options
+                [ValueParameter]@{
+                    Keys = @("--rebase", "-r");
+                    Name = "rebase";
+                    Description = "Rebase the current branch on top of the upstream branch after fetching. Can be 'true', 'false', 'merges', or 'interactive'.";
+                    Condition = [ExclusiveParameterCondition]::new("no-rebase");
+                },
+                [FlagParameter]@{
+                    Keys = @("--no-rebase");
+                    Name = "no-rebase";
+                    Description = "Override the pull.rebase configuration variable to prevent rebasing.";
+                    Condition = [ExclusiveParameterCondition]::new("rebase");
+                },
+                [FlagParameter]@{
+                    Keys = @("--ff");
+                    Name = "ff";
+                    Description = "Only fast-forward the branch. This is the default.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--no-ff");
+                    Name = "no-ff";
+                    Description = "Create a merge commit even when the merge resolves as a fast-forward.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--ff-only");
+                    Name = "ff-only";
+                    Description = "Refuse to merge and exit with a non-zero status unless it can be resolved as a fast-forward.";
+                },
+                [ValueParameter]@{
+                    Keys = @("--strategy", "-s");
+                    Name = "strategy";
+                    Description = "Use the given merge strategy (e.g., 'recursive', 'resolve', 'octopus', 'ours', 'subtree').";
+                },
+                [ValueParameter]@{
+                    Keys = @("--strategy-option", "-X");
+                    Name = "strategy-option";
+                    Description = "Pass a merge strategy-specific option through to the merge strategy.";
+                },
+
+                # Commit Options
+                [FlagParameter]@{
+                    Keys = @("--commit");
+                    Name = "commit";
+                    Description = "Perform the merge and commit the result. This can be used to override --no-commit.";
+                    Condition = [ExclusiveParameterCondition]::new("no-commit", "squash");
+                },
+                [FlagParameter]@{
+                    Keys = @("--no-commit");
+                    Name = "no-commit";
+                    Description = "Perform the merge but stop before creating a merge commit.";
+                    Condition = [ExclusiveParameterCondition]::new("commit");
+                },
+                [FlagParameter]@{
+                    Keys = @("--edit", "-e");
+                    Name = "edit";
+                    Description = "Invoke an editor before committing to edit the auto-generated merge message.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--no-edit");
+                    Name = "no-edit";
+                    Description = "Accept the auto-generated merge message without launching an editor.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--squash");
+                    Name = "squash";
+                    Description = "Produce the working tree and index state as if a real merge happened, but do not actually make a commit or move the HEAD.";
+                    Condition = [ExclusiveParameterCondition]::new("commit");
+                },
+                [FlagParameter]@{
+                    Keys = @("--no-squash");
+                    Name = "no-squash";
+                    Description = "Perform the merge and commit the result. This option can be used to override --squash.";
+                },
+
+                # Fetching Options
+                [FlagParameter]@{
+                    Keys = @("--all");
+                    Name = "all";
+                    Description = "Fetch all remotes.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--force", "-f");
+                    Name = "force";
+                    Description = "Forces the fetch to overwrite a local branch even if it's not an ancestor of the remote branch.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--prune", "-p");
+                    Name = "prune";
+                    Description = "Before fetching, remove any remote-tracking references that no longer exist on the remote.";
+                },
+                [ValueParameter]@{
+                    Keys = @("--depth");
+                    Name = "depth";
+                    Description = "Limit fetching to the specified number of commits from the tip of each remote branch history.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--unshallow");
+                    Name = "unshallow";
+                    Description = "Convert a shallow repository to a complete one, removing all shallow limitations.";
+                },
+
+                # Other Behavior Options
+                [FlagParameter]@{
+                    Keys = @("--autostash");
+                    Name = "autostash";
+                    Description = "Automatically create a temporary stash before the operation begins and apply it after.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--no-autostash");
+                    Name = "no-autostash";
+                    Description = "Do not automatically create a stash. Overrides autostash configuration.";
+                },
+                [FlagParameter]@{
+                    Keys = @("--allow-unrelated-histories");
+                    Name = "allow-unrelated-histories";
+                    Description = "Allows merging two projects that have unrelated histories.";
+                },
+        
+                # Positional Arguments
+                [ValueParameter]@{
+                    Name = "repository";
+                    Description = "The 'remote' repository to pull from (e.g., 'origin').";
+                },
+                [ValueParameter]@{
+                    Name = "refspec";
+                    Description = "Specifies which refs to fetch and which local refs to update (e.g., 'main', 'dev:dev').";
                 }
             )
         }
