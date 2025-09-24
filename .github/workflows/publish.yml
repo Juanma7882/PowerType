@@ -35,7 +35,9 @@ jobs:
       shell: pwsh
       run: |
         $file = 'artifacts\PowerType\PowerType.psd1'
-        Update-ModuleManifest $file -ModuleVersion '${{ github.event.release.tag_name }}' -ReleaseNotes '${{ github.event.release.body }}'
+        Update-ModuleManifest $file -ModuleVersion '${{ github.event.release.tag_name }}' -ReleaseNotes @'
+        ${{ github.event.release.body }}
+        '@
 
     - name: Enable Prerelease
       if: github.event.release.prerelease == true
