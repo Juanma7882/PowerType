@@ -82,7 +82,7 @@ $allBranches = [DynamicSource]@{
     Name = "AllBranches";
     Description = "Local and remote branches";
     CommandExpression = {
-        git --no-optional-locks branch -a --no-color  | % { $_.trim(' *$(') } | % { $_.StartsWith("remotes/origin/") ? $_.Substring(15) : $_ } | Where-Object { !$_.StartsWith("HEAD") } | Select -Unique
+        git --no-optional-locks branch -a --no-color | % { $_.trim(' *$(') } | % { $_.StartsWith("remotes/origin/") ? $_.Substring(15) : $_ } | Where-Object { !$_.StartsWith("HEAD") } | Select -Unique
     };
     Cache = [Cache]@{
         ByCurrentWorkingDirectory = $true;
@@ -95,7 +95,7 @@ $localBranches = [DynamicSource]@{
     Name = "LocalBranches";
     Description = "Local branches";
     CommandExpression = {
-        git --no-optional-locks branch --no-color  | % { $_.trim(' *$(') } | % { $_.StartsWith("remotes/origin/") ? $_.Substring(15) : $_ } | Where-Object { !$_.StartsWith("HEAD") } | Select -Unique
+        git --no-optional-locks branch --no-color | % { $_.trim(' *$(') } | % { $_.StartsWith("remotes/origin/") ? $_.Substring(15) : $_ } | Where-Object { !$_.StartsWith("HEAD") } | Select -Unique
     };
     Cache = [Cache]@{
         ByCurrentWorkingDirectory = $true;
@@ -108,7 +108,12 @@ $stashes = [DynamicSource]@{
     Name = "Stashes";
     Description = "Stashes";
     CommandExpression = {
-        git --no-optional-locks stash list -a --no-color | Select -Unique
+        git --no-optional-locks stash list -a --no-color | Select -Unique | Select-String '^stash\@\{(\d+)\}: ?(.+)$' | % { 
+            [SourceItem]@{
+                Name = $_.Matches.Groups[1].Value;
+                Description = $_.Matches.Groups[2].Value
+            }
+        }
     };
     Cache = [Cache]@{
         ByCurrentWorkingDirectory = $true;

@@ -29,8 +29,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 		.github\workflows\create-dictionaries-from-carapace.yml = .github\workflows\create-dictionaries-from-carapace.yml
 		.github\workflows\create-git-dictionary-base.yml = .github\workflows\create-git-dictionary-base.yml
+		.github\workflows\lint-markdown.yml = .github\workflows\lint-markdown.yml
 		.github\workflows\powershell-analysis.yml = .github\workflows\powershell-analysis.yml
 		.github\workflows\publish.yml = .github\workflows\publish.yml
+		.github\workflows\sonar.yml = .github\workflows\sonar.yml
 		.github\workflows\test.yml = .github\workflows\test.yml
 	EndProjectSection
 EndProject

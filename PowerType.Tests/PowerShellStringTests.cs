@@ -1,5 +1,5 @@
 ﻿using System.Management.Automation.Language;
-using FluentAssertions;
+using AwesomeAssertions;
 using PowerType.Parsing;
 using Xunit;
 

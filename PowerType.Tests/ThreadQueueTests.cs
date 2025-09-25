@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using AwesomeAssertions;
 using PowerType.BackgroundProcessing;
 using Xunit;
 
@@ -49,6 +44,6 @@ public class ThreadQueueTests
             var value2 = queue.WaitAndDequeue(source.Token);
         };
         action.Should().Throw<OperationCanceledException>();
-        
+
     }
 }

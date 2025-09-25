@@ -13,19 +13,19 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
 
-    - name: Setup .NET6
-      uses: actions/setup-dotnet@v1
+    - name: Setup .NET 9
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 9.0.x
 
     - uses: testspace-com/setup-testspace@v1
       with:
         domain: ${{github.repository_owner}}
 
     - name: Cache dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.nuget/packages
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
