@@ -13,32 +13,6 @@
     }
 }
 
-$global = [DynamicSource]@{
-    Name = "Global npm Packages";
-    Description = "A list of all globally installed npm packages";
-    CommandExpression = { 
-        npm ls -g --depth=0 --parseable | ForEach-Object { $_ -replace '.*node_modules[\\/]', '' } 
-    };
-    Cache = [Cache]@{
-        ByCurrentWorkingDirectory = $false;
-        ByTime = New-TimeSpan -Seconds 30
-    }
-}
-$dependencies = [DynamicSource]@{
-    Name = "Dependencies";
-    Description = "A list of all dependencies defined in package.json";
-    CommandExpression = {
-        $packageFile = Find-FileRecursive $pwd.Path 'package.json'
-        if ($packageFile) {
-            (Get-Content $packageFile | ConvertFrom-Json).dependencies.PSObject.Properties | % { $_.Name }
-        }
-    };
-    Cache = [Cache]@{
-        ByCurrentWorkingDirectory = $true;
-        ByTime = New-TimeSpan -Seconds 10
-    }
-}
-
 [PowerTypeDictionary]@{
     Keys        = @("npm");
     Name        = "npm";
@@ -71,102 +45,92 @@ $dependencies = [DynamicSource]@{
             Name = "install";
             Description = "Install everything in package.json";
             Parameters  = @(
-                [ValueParameter]@{
+                # Common database drivers and ORMs
+                [FlagParameter]@{
                     Keys = @("mysql");
                     Name = "mysql";
                     Description = "Installs the original package to interact with MySQL from Node.js";
                 },
-                # Common database drivers and ORMs
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("mysql2");
                     Name = "mysql2";
                     Description = "Installs the improved, faster MySQL driver";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("pg");
                     Name = "pg";
                     Description = "Installs the PostgreSQL client for Node.js (also called node-postgres)";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("pg-promise");
                     Name = "pg-promise";
                     Description = "Installs a simpler, promise-based interface for PostgreSQL";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("mongoose");
                     Name = "mongoose";
                     Description = "Installs an ODM (Object Document Mapping) for MongoDB with schemas and validation";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("mongodb");
                     Name = "mongodb";
                     Description = "Installs the official MongoDB driver for Node.js";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("sqlite3");
                     Name = "sqlite3";
                     Description = "Installs the SQLite binding for Node.js";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("better-sqlite3");
                     Name = "better-sqlite3";
                     Description = "Installs a faster and simpler version of SQLite";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("redis");
                     Name = "redis";
                     Description = "Installs the modern Redis client for Node.js";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("ioredis");
                     Name = "ioredis";
                     Description = "Installs a robust Redis client with more features";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("tedious");
                     Name = "tedious";
                     Description = "Installs the official Microsoft SQL Server (MSSQL) driver for Node.js";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("sequelize");
                     Name = "sequelize";
                     Description = "Installs Sequelize, a promise-based ORM supporting PostgreSQL, MySQL, MariaDB, SQLite and SQL Server";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("typeorm");
                     Name = "typeorm";
                     Description = "Installs TypeORM, a feature-rich ORM supporting Active Record and Data Mapper patterns for TypeScript and JavaScript";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("prisma");
                     Name = "prisma";
                     Description = "Installs Prisma, a modern ORM with auto-generated queries, migrations and type-safe client for Node.js";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("objection");
                     Name = "objection";
                     Description = "Installs Objection.js, an SQL-friendly ORM built on top of Knex.js for flexible query building";
                 },
-                [ValueParameter]@{
+                [FlagParameter]@{
                     Keys = @("bookshelf");
                     Name = "bookshelf";
                     Description = "Installs Bookshelf.js, an ORM built on top of Knex.js that provides relations and plugins";
                 },
-                # finish common database drivers and ORMs 
-                [ValueParameter]@{
+                # finish common database drivers and ORMs
+                [FlagParameter]@{
                     Keys = @("typescript");
                     Name = "typescript";
                     Description = "Installs TypeScript locally";
-                },
-                [ValueParameter]@{
-                    Keys = @("-D", "--save-dev");
-                    Name = "-D";
-                    Description = "Installs the package as a development dependency (saved under devDependencies)";
-                },
-                [ValueParameter]@{
-                    Keys = @("-g", "--global");
-                    Name = "-g";
-                    Description = "Installs the package globally, making it available system-wide";
                 }
             )
         },
