@@ -41,100 +41,6 @@
             )
         },
         [CommandParameter]@{
-            Keys = @("install","i");
-            Name = "install";
-            Description = "Install everything in package.json";
-            Parameters  = @(
-                # Common database drivers and ORMs
-                [FlagParameter]@{
-                    Keys = @("mysql");
-                    Name = "mysql";
-                    Description = "Installs the original package to interact with MySQL from Node.js";
-                },
-                [FlagParameter]@{
-                    Keys = @("mysql2");
-                    Name = "mysql2";
-                    Description = "Installs the improved, faster MySQL driver";
-                },
-                [FlagParameter]@{
-                    Keys = @("pg");
-                    Name = "pg";
-                    Description = "Installs the PostgreSQL client for Node.js (also called node-postgres)";
-                },
-                [FlagParameter]@{
-                    Keys = @("pg-promise");
-                    Name = "pg-promise";
-                    Description = "Installs a simpler, promise-based interface for PostgreSQL";
-                },
-                [FlagParameter]@{
-                    Keys = @("mongoose");
-                    Name = "mongoose";
-                    Description = "Installs an ODM (Object Document Mapping) for MongoDB with schemas and validation";
-                },
-                [FlagParameter]@{
-                    Keys = @("mongodb");
-                    Name = "mongodb";
-                    Description = "Installs the official MongoDB driver for Node.js";
-                },
-                [FlagParameter]@{
-                    Keys = @("sqlite3");
-                    Name = "sqlite3";
-                    Description = "Installs the SQLite binding for Node.js";
-                },
-                [FlagParameter]@{
-                    Keys = @("better-sqlite3");
-                    Name = "better-sqlite3";
-                    Description = "Installs a faster and simpler version of SQLite";
-                },
-                [FlagParameter]@{
-                    Keys = @("redis");
-                    Name = "redis";
-                    Description = "Installs the modern Redis client for Node.js";
-                },
-                [FlagParameter]@{
-                    Keys = @("ioredis");
-                    Name = "ioredis";
-                    Description = "Installs a robust Redis client with more features";
-                },
-                [FlagParameter]@{
-                    Keys = @("tedious");
-                    Name = "tedious";
-                    Description = "Installs the official Microsoft SQL Server (MSSQL) driver for Node.js";
-                },
-                [FlagParameter]@{
-                    Keys = @("sequelize");
-                    Name = "sequelize";
-                    Description = "Installs Sequelize, a promise-based ORM supporting PostgreSQL, MySQL, MariaDB, SQLite and SQL Server";
-                },
-                [FlagParameter]@{
-                    Keys = @("typeorm");
-                    Name = "typeorm";
-                    Description = "Installs TypeORM, a feature-rich ORM supporting Active Record and Data Mapper patterns for TypeScript and JavaScript";
-                },
-                [FlagParameter]@{
-                    Keys = @("prisma");
-                    Name = "prisma";
-                    Description = "Installs Prisma, a modern ORM with auto-generated queries, migrations and type-safe client for Node.js";
-                },
-                [FlagParameter]@{
-                    Keys = @("objection");
-                    Name = "objection";
-                    Description = "Installs Objection.js, an SQL-friendly ORM built on top of Knex.js for flexible query building";
-                },
-                [FlagParameter]@{
-                    Keys = @("bookshelf");
-                    Name = "bookshelf";
-                    Description = "Installs Bookshelf.js, an ORM built on top of Knex.js that provides relations and plugins";
-                },
-                # finish common database drivers and ORMs
-                [FlagParameter]@{
-                    Keys = @("typescript");
-                    Name = "typescript";
-                    Description = "Installs TypeScript locally";
-                }
-            )
-        },
-        [CommandParameter]@{
             Keys = @("init");
             Name = "init";
             Description = "This command initializes a package by creating a package.json file.";
@@ -178,6 +84,91 @@
             Keys = @("version","v");
             Name = "version";
             Description = "show version";
+        },
+        [CommandParameter]@{
+            Keys = @("install","i");
+            Name = "install";
+            Description = "Install everything in package.json";
+            Parameters  = @(
+                # Paquetes comunes (drivers, ORMs, etc.)
+                [ValueParameter]@{
+                    Name        = "package";
+                    Description = "The npm package to install";
+                    Source      = [StaticSource]@{
+                        Name  = "Common npm packages";
+                        Items = @(
+                            [SourceItem]@{
+                                Name = "mysql";
+                                Description = "Original MySQL driver";
+                            },
+                            [SourceItem]@{
+                                Name = "mysql2";
+                                Description = "Faster MySQL driver";
+                            },
+                            [SourceItem]@{
+                                Name = "pg";
+                                Description = "PostgreSQL client (node-postgres)";
+                            },
+                            [SourceItem]@{
+                                Name = "pg-promise";
+                                Description = "Promise-based PostgreSQL client";
+                            },
+                            [SourceItem]@{
+                                Name = "mongoose";
+                                Description = "MongoDB ODM with schemas";
+                            },
+                            [SourceItem]@{
+                                Name = "mongodb";
+                                Description = "Official MongoDB driver";
+                            },
+                            [SourceItem]@{
+                                Name = "sqlite3";
+                                Description = "SQLite binding";
+                            },
+                            [SourceItem]@{
+                                Name = "better-sqlite3";
+                                Description = "Faster SQLite library";
+                            },
+                            [SourceItem]@{
+                                Name = "redis";
+                                Description = "Modern Redis client";
+                            },
+                            [SourceItem]@{
+                                Name = "ioredis";
+                                Description = "Advanced Redis client";
+                            },
+                            [SourceItem]@{
+                                Name = "tedious";
+                                Description = "MSSQL driver for Node.js";
+                            },
+                            [SourceItem]@{
+                                Name = "sequelize";
+                                Description = "Promise-based ORM";
+                            },
+                            [SourceItem]@{
+                                Name = "typeorm";
+                                Description = "ORM with Active Record & Data Mapper";
+                            },
+                            [SourceItem]@{
+                                Name = "prisma";
+                                Description = "Modern type-safe ORM";
+                            },
+                            [SourceItem]@{
+                                Name = "objection";
+                                Description = "ORM built on Knex.js";
+                            },
+                            [SourceItem]@{
+                                Name = "bookshelf";
+                                Description = "ORM built on Knex.js with plugins";
+                            },
+                            [SourceItem]@{
+                                Name = "typescript";
+                                Description = "TypeScript compiler";
+                            }
+                        )
+                    }
+                }
+            )   
         }
     )
 }
