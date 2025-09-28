@@ -66,7 +66,7 @@
             Description = "check for security vulnerabilities";
         },
         [CommandParameter]@{
-            Keys = @("list","ls","la","ll");
+            Keys = @("list","la","ll");
             Name = "list";
             Description = "list installed packages";
         },
