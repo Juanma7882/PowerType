@@ -1,5 +1,5 @@
 ﻿[PowerTypeDictionary]@{
-    Keys        = @("pwsh", "powershell", "ps");
+    Keys        = @("pwsh");
     Name        = "pwsh";
     Description = "PowerShell 7 executable options and flags.";
     Platforms   = ([Platforms]::All);
